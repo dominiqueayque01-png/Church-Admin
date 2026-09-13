@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <!-- Church cross favicon in gold -->
+  <defs>
+    <linearGradient id="cross-gradient" x1="24" y1="4" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#d4b84a"/>
+      <stop offset="100%" stop-color="#8b7535"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Outer circle -->
+  <circle cx="24" cy="24" r="22" fill="#1e1e1e" stroke="url(#cross-gradient)" stroke-width="1.5"/>
+  <!-- Cross shape -->
+  <g filter="url(#glow)">
+    <rect x="21" y="8" width="6" height="32" rx="1.5" fill="url(#cross-gradient)"/>
+    <rect x="12" y="16" width="24" height="6" rx="1.5" fill="url(#cross-gradient)"/>
+  </g>
+</svg>

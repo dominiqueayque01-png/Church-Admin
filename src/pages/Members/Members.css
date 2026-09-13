@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════════════
+   MEMBERS PAGE — Directory and Profile styles
+   (Shared card, table, search, and followup styles in components.css)
+   ═══════════════════════════════════════════════════ */
+
+/* ── STATUS TABS ────────────────────────────────────── */
+.members__status-tabs {
+  margin-bottom: 4px;
+}
+
+/* ── TABLE SCROLL ───────────────────────────────────── */
+.members__table-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-md, 10px);
+}
+
+.reg-table__row--clickable {
+  cursor: pointer;
+}
+
+.reg-table__row--clickable:hover td {
+  background: var(--gold-subtle) !important;
+}
+
+.members__days-ago {
+  color: var(--warning, #e67e22);
+  font-weight: 600;
+}
+
+.members__load-more {
+  display: block;
+  margin: 16px auto 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-card, #faf7f0);
+  padding: 8px 22px;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--duration-fast, 150ms);
+}
+
+.members__load-more:hover {
+  background: var(--gold-subtle);
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}
+
+/* ── BACK BUTTON (profile page) ─────────────────────── */
+.members__back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color var(--duration-fast, 150ms);
+}
+
+.members__back-btn:hover {
+  color: var(--gold-dark);
+}
+
+/* ── MEMBER PROFILE HEADER ──────────────────────────── */
+.member-profile__header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-left: 4px solid var(--gold);
+}
+
+.member-profile__avatar {
+  width: 68px;
+  height: 68px;
+  font-size: 24px;
+  font-weight: 800;
+  border-radius: var(--radius-lg, 14px);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.member-profile__identity {
+  min-width: 0;
+  flex: 1;
+}
+
+.member-profile__name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.member-profile__name {
+  font-family: var(--font-serif, serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.member-profile__meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.member-profile__contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-primary);
+  flex-wrap: wrap;
+}
+
+.member-profile__contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+}
+
+.member-profile__no-contact {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── MINISTRY INVOLVEMENT DETAIL ROWS ───────────────── */
+.member-profile__detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--border-light, #ebe6da);
+  font-size: 13px;
+}
+
+.member-profile__detail-row:last-child {
+  border-bottom: none;
+}
+
+.member-profile__detail-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.member-profile__detail-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}

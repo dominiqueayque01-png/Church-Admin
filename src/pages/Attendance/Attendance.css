@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════════════
+   ATTENDANCE PAGE — Calendar and service styles
+   (Shared card, table, search, and followup styles in components.css)
+   ═══════════════════════════════════════════════════ */
+
+/* ── CALENDAR ───────────────────────────────────── */
+.calendar-month {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  background: rgba(181, 151, 58, 0.1);
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1px solid rgba(181, 151, 58, 0.2);
+}
+
+.calendar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.calendar-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 10px;
+  border-radius: var(--radius-md, 10px);
+  transition: all var(--duration-fast, 150ms);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.calendar-item:hover {
+  background: var(--gold-subtle);
+  border-color: rgba(181, 151, 58, 0.2);
+}
+
+.calendar-item--active {
+  background: linear-gradient(90deg, rgba(212, 184, 74, 0.14) 0%, rgba(212, 184, 74, 0.04) 100%) !important;
+  border: 1px solid var(--gold) !important;
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.calendar-item__date {
+  width: 48px;
+  height: 52px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 1px;
+}
+
+.calendar-item__date--ministry {
+  background: rgba(181, 151, 58, 0.15);
+  border: 1px solid rgba(181, 151, 58, 0.3);
+}
+
+.calendar-item__date--fellowship {
+  background: rgba(52, 152, 219, 0.15);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.calendar-item__date--special {
+  background: rgba(142, 68, 173, 0.15);
+  border: 1px solid rgba(142, 68, 173, 0.3);
+}
+
+.calendar-item__day-name {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.calendar-item__day-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.calendar-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.calendar-item__title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.calendar-item__time {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.calendar-item__clock-icon {
+  color: var(--text-muted);
+}
+
+.calendar-item__attendance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 64px;
+}
+
+.calendar-item__attendance--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-item__att-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.calendar-item__att-icon {
+  color: var(--success);
+}
+
+.calendar-item__att-upcoming {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  background: var(--gold-subtle);
+  border: 1px solid rgba(181, 151, 58, 0.25);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+/* Compact list */
+.calendar-list--compact {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.calendar-item--compact {
+  padding: 8px 10px;
+  gap: 12px;
+}
+
+.calendar-item--compact .calendar-item__date--compact {
+  width: 40px;
+  height: 42px;
+}
+
+.calendar-item--compact .calendar-item__day-name { font-size: 9px; }
+.calendar-item--compact .calendar-item__day-num { font-size: 17px; }
+
+/* ── VIEW TOGGLE (List / Calendar) ─────────────────── */
+.attendance__view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-input, rgba(0, 0, 0, 0.03));
+  border-radius: 20px;
+  padding: 3px;
+}
+
+.view-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-toggle-btn--active {
+  background: #fff;
+  color: var(--gold-dark);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.attendance__grid-top {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .attendance__grid-top {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── CALENDAR GRID ────────────────────────────────── */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.calendar-grid--compact {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.calendar-grid__weekday {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  padding-bottom: 6px;
+}
+
+.calendar-grid__cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.calendar-grid__cell--empty {
+  background: transparent;
+  border-color: transparent;
+}
+
+.calendar-grid__day-num {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.calendar-grid__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.calendar-grid__dot--ministry { background: var(--gold); }
+.calendar-grid__dot--fellowship { background: #3498db; }
+.calendar-grid__dot--special { background: #8e44ad; }
