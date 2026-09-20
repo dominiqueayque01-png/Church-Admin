@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, UserCheck, UserX, UserPlus, Search, PhoneCall } from 'lucide-react';
+import { getMembers } from '../../services/api';
 import './Members.css';
 
 // ── TYPES ──────────────────────────────────────────────────
@@ -107,13 +108,47 @@ export default function MembersPage() {
   const [sortBy, setSortBy] = useState<SortOption>('Name');
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [membersList, setMembersList] = useState<Member[]>(MOCK_MEMBERS);
 
-  const totalMembers = MOCK_MEMBERS.length;
-  const inactiveMembers = MOCK_MEMBERS.filter(m => m.servicesMissed >= INACTIVE_THRESHOLD);
+  useEffect(() => {
+    let isMounted = true;
+    async function loadMembers() {
+      try {
+        const cloudMembers = await getMembers();
+        if (isMounted && cloudMembers && cloudMembers.length > 0) {
+          const formatted: Member[] = cloudMembers.map(m => ({
+            id: m.id,
+            name: m.name || `${m.firstName} ${m.lastName}`,
+            status: m.status,
+            ministry: m.ministry || 'Unassigned',
+            age: Number(m.age) || 25,
+            ageGroup: m.ageGroup || '26-35',
+            lastAttended: m.lastAttended || 'Recent',
+            lastAttendedDaysAgo: 0,
+            dateJoined: m.joinedDate || '2026-01-01',
+            dateJoinedMonth: 'Jul 2026',
+            servicesMissed: 0,
+            phone: m.phone,
+            email: m.email,
+            howHeard: m.howTheyHeard,
+            avatarInitials: m.avatarInitials || 'MB',
+          }));
+          setMembersList(formatted);
+        }
+      } catch (err) {
+        console.log('Error fetching members from Supabase, using mock fallback:', err);
+      }
+    }
+    loadMembers();
+    return () => { isMounted = false; };
+  }, []);
+
+  const totalMembers = membersList.length;
+  const inactiveMembers = membersList.filter(m => m.servicesMissed >= INACTIVE_THRESHOLD);
   const activeMembers = totalMembers - inactiveMembers.length;
-  const newThisMonth = MOCK_MEMBERS.filter(m => m.dateJoinedMonth === CURRENT_MONTH_KEY).length;
+  const newThisMonth = membersList.filter(m => m.dateJoinedMonth === CURRENT_MONTH_KEY).length;
 
-  let filtered = MOCK_MEMBERS
+  let filtered = membersList
     .filter(m => matchesTab(m, activeTab))
     .filter(m => ministryFilter === 'All' || m.ministry === ministryFilter)
     .filter(m => ageFilter === 'All' || m.ageGroup === ageFilter)

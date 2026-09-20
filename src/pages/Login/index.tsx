@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Cross, User, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, Sparkles } from 'lucide-react';
+import { loginStationUser } from '../../services/api';
 import './Login.css';
 
 const MOCK_USERS = [
-  { id: '1', username: 'admin', password: 'admin123', role: 'Admin', name: 'System Admin' },
-  { id: '2', username: 'usher1', password: 'usher123', role: 'Usher', name: 'John Usher' },
+  { id: '1', username: 'admin', password: 'admin123', role: 'admin', name: 'System Admin', avatarInitials: 'SA' },
+  { id: '2', username: 'usher1', password: 'usher123', role: 'usher', name: 'John Usher', avatarInitials: 'JU' },
 ];
 
 type Props = {
@@ -18,7 +19,7 @@ export default function LoginPage({ onLoginSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = (e?: React.FormEvent) => {
+  const handleLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password.');
@@ -27,18 +28,37 @@ export default function LoginPage({ onLoginSuccess }: Props) {
     setLoading(true);
     setError('');
 
-    setTimeout(() => {
-      const user = MOCK_USERS.find(
+    try {
+      const user = await loginStationUser(username, password);
+      if (user) {
+        onLoginSuccess(user);
+        return;
+      } else {
+        // Try fallback mock if database is not yet populated
+        const mockUser = MOCK_USERS.find(
+          u => u.username.toLowerCase() === username.toLowerCase().trim()
+            && u.password === password
+        );
+        if (mockUser) {
+          onLoginSuccess(mockUser);
+          return;
+        }
+        setError('Invalid credentials. Check username or password.');
+      }
+    } catch (err: any) {
+      // Fallback for offline/unconfigured Supabase
+      const mockUser = MOCK_USERS.find(
         u => u.username.toLowerCase() === username.toLowerCase().trim()
           && u.password === password
       );
-      if (user) {
-        onLoginSuccess(user);
-      } else {
-        setLoading(false);
-        setError('Invalid credentials. Check username or password.');
+      if (mockUser) {
+        onLoginSuccess(mockUser);
+        return;
       }
-    }, 550);
+      setError(err?.message || 'Connection error. Check credentials or Supabase URL.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fillDemo = (userType: 'admin' | 'usher') => {
